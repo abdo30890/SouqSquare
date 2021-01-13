@@ -1,0 +1,689 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbMyOnlineShoppingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cart_Details">
+          <Key>
+            <PropertyRef Name="CartDetailsID" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="product_Quantity" Type="int" />
+          <Property Name="CartDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="Total_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CartId" Type="int" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <EntityType Name="Complaine">
+          <Key>
+            <PropertyRef Name="ComplainId" />
+          </Key>
+          <Property Name="ComplainId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="100" />
+          <Property Name="UserPhone" Type="varchar" MaxLength="100" />
+          <Property Name="ComplainText" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Cart">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cart_Status" Type="varchar" MaxLength="100" />
+          <Property Name="MemberId" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tbl_Members">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Password" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="RePassword" Type="nvarchar" MaxLength="500" />
+          <Property Name="Role" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Order">
+          <Key>
+            <PropertyRef Name="OerderId" />
+          </Key>
+          <Property Name="OerderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShippingDetailId" Type="int" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="CartDetailsID" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="500" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ProductImage" Type="varchar(max)" />
+          <Property Name="IsFeatured" Type="bit" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_ShippingDetails">
+          <Key>
+            <PropertyRef Name="ShippingDetailId" />
+          </Key>
+          <Property Name="ShippingDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="Address" Type="varchar" MaxLength="500" />
+          <Property Name="City" Type="varchar" MaxLength="500" />
+          <Property Name="State" Type="varchar" MaxLength="500" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="CartId" Type="int" />
+        </EntityType>
+        <Association Name="FK__ Tbl_Ship__CartI__74794A92">
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="0..1" />
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cart">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="Tbl_ShippingDetails">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart_Deta__CartI__73852659">
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cart">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart_Deta__Membe__76619304">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart_Deta__Produ__17036CC0">
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Cart__Member__13F1F5EB">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_Cart">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__CartD__0E391C95">
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart_Details">
+              <PropertyRef Name="CartDetailsID" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="CartDetailsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__Membe__0D44F85C">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__Shipp__0C50D423">
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ShippingDetails">
+              <PropertyRef Name="ShippingDetailId" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="ShippingDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Produ__Categ__4D94879B">
+          <End Role="Tbl_Category" Type="Self.Tbl_Category" Multiplicity="0..1" />
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Tbl_Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Shipp__Membe__4E88ABD4">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_ShippingDetails">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbMyOnlineShoppingModelStoreContainer">
+          <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Complaine" EntityType="Self.Complaine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Cart" EntityType="Self.Tbl_Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Category" EntityType="Self.Tbl_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Members" EntityType="Self.Tbl_Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Order" EntityType="Self.Tbl_Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_ShippingDetails" EntityType="Self.Tbl_ShippingDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ Tbl_Ship__CartI__74794A92" Association="Self.FK__ Tbl_Ship__CartI__74794A92">
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart_Deta__CartI__73852659" Association="Self.FK__Cart_Deta__CartI__73852659">
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart_Deta__Membe__76619304" Association="Self.FK__Cart_Deta__Membe__76619304">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart_Deta__Produ__17036CC0" Association="Self.FK__Cart_Deta__Produ__17036CC0">
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Cart__Member__13F1F5EB" Association="Self.FK__Tbl_Cart__Member__13F1F5EB">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__CartD__0E391C95" Association="Self.FK__Tbl_Order__CartD__0E391C95">
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__Membe__0D44F85C" Association="Self.FK__Tbl_Order__Membe__0D44F85C">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__Shipp__0C50D423" Association="Self.FK__Tbl_Order__Shipp__0C50D423">
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Produ__Categ__4D94879B" Association="Self.FK__Tbl_Produ__Categ__4D94879B">
+            <End Role="Tbl_Category" EntitySet="Tbl_Category" />
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Shipp__Membe__4E88ABD4" Association="Self.FK__Tbl_Shipp__Membe__4E88ABD4">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbMyOnlineShoppingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cart_Details">
+          <Key>
+            <PropertyRef Name="CartDetailsID" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="product_Quantity" Type="Int32" />
+          <Property Name="CartDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="Total_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CartId" Type="Int32" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Tbl_Cart" Relationship="Self.FK__Cart_Deta__CartI__73852659" FromRole="Cart_Details" ToRole="Tbl_Cart" />
+          <NavigationProperty Name="Tbl_Members" Relationship="Self.FK__Cart_Deta__Membe__76619304" FromRole="Cart_Details" ToRole="Tbl_Members" />
+          <NavigationProperty Name="Tbl_Product" Relationship="Self.FK__Cart_Deta__Produ__17036CC0" FromRole="Cart_Details" ToRole="Tbl_Product" />
+          <NavigationProperty Name="Tbl_Order" Relationship="Self.FK__Tbl_Order__CartD__0E391C95" FromRole="Cart_Details" ToRole="Tbl_Order" />
+        </EntityType>
+        <EntityType Name="Complaine">
+          <Key>
+            <PropertyRef Name="ComplainId" />
+          </Key>
+          <Property Name="ComplainId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ComplainText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Cart">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cart_Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MemberId" Type="Int32" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK__Cart_Deta__CartI__73852659" FromRole="Tbl_Cart" ToRole="Cart_Details" />
+          <NavigationProperty Name="Tbl_ShippingDetails" Relationship="Self.FK___Tbl_Ship__CartI__74794A92" FromRole="Tbl_Cart" ToRole="Tbl_ShippingDetails" />
+          <NavigationProperty Name="Tbl_Members" Relationship="Self.FK__Tbl_Cart__Member__13F1F5EB" FromRole="Tbl_Cart" ToRole="Tbl_Members" />
+        </EntityType>
+        <EntityType Name="Tbl_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="Tbl_Product" Relationship="Self.FK__Tbl_Produ__Categ__4D94879B" FromRole="Tbl_Category" ToRole="Tbl_Product" />
+        </EntityType>
+        <EntityType Name="Tbl_Members">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="RePassword" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK__Cart_Deta__Membe__76619304" FromRole="Tbl_Members" ToRole="Cart_Details" />
+          <NavigationProperty Name="Tbl_Cart" Relationship="Self.FK__Tbl_Cart__Member__13F1F5EB" FromRole="Tbl_Members" ToRole="Tbl_Cart" />
+          <NavigationProperty Name="Tbl_Order" Relationship="Self.FK__Tbl_Order__Membe__0D44F85C" FromRole="Tbl_Members" ToRole="Tbl_Order" />
+          <NavigationProperty Name="Tbl_ShippingDetails" Relationship="Self.FK__Tbl_Shipp__Membe__4E88ABD4" FromRole="Tbl_Members" ToRole="Tbl_ShippingDetails" />
+        </EntityType>
+        <EntityType Name="Tbl_Order">
+          <Key>
+            <PropertyRef Name="OerderId" />
+          </Key>
+          <Property Name="OerderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShippingDetailId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="CartDetailsID" Type="Int32" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK__Tbl_Order__CartD__0E391C95" FromRole="Tbl_Order" ToRole="Cart_Details" />
+          <NavigationProperty Name="Tbl_Members" Relationship="Self.FK__Tbl_Order__Membe__0D44F85C" FromRole="Tbl_Order" ToRole="Tbl_Members" />
+          <NavigationProperty Name="Tbl_ShippingDetails" Relationship="Self.FK__Tbl_Order__Shipp__0C50D423" FromRole="Tbl_Order" ToRole="Tbl_ShippingDetails" />
+        </EntityType>
+        <EntityType Name="Tbl_Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsFeatured" Type="Boolean" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK__Cart_Deta__Produ__17036CC0" FromRole="Tbl_Product" ToRole="Cart_Details" />
+          <NavigationProperty Name="Tbl_Category" Relationship="Self.FK__Tbl_Produ__Categ__4D94879B" FromRole="Tbl_Product" ToRole="Tbl_Category" />
+        </EntityType>
+        <EntityType Name="Tbl_ShippingDetails">
+          <Key>
+            <PropertyRef Name="ShippingDetailId" />
+          </Key>
+          <Property Name="ShippingDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="CartId" Type="Int32" />
+          <NavigationProperty Name="Tbl_Cart" Relationship="Self.FK___Tbl_Ship__CartI__74794A92" FromRole="Tbl_ShippingDetails" ToRole="Tbl_Cart" />
+          <NavigationProperty Name="Tbl_Members" Relationship="Self.FK__Tbl_Shipp__Membe__4E88ABD4" FromRole="Tbl_ShippingDetails" ToRole="Tbl_Members" />
+          <NavigationProperty Name="Tbl_Order" Relationship="Self.FK__Tbl_Order__Shipp__0C50D423" FromRole="Tbl_ShippingDetails" ToRole="Tbl_Order" />
+        </EntityType>
+        <Association Name="FK__Cart_Deta__CartI__73852659">
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cart">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart_Deta__Membe__76619304">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart_Deta__Produ__17036CC0">
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__CartD__0E391C95">
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart_Details">
+              <PropertyRef Name="CartDetailsID" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="CartDetailsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK___Tbl_Ship__CartI__74794A92">
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="0..1" />
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cart">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="Tbl_ShippingDetails">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Cart__Member__13F1F5EB">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_Cart" Type="Self.Tbl_Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_Cart">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Produ__Categ__4D94879B">
+          <End Role="Tbl_Category" Type="Self.Tbl_Category" Multiplicity="0..1" />
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Tbl_Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__Membe__0D44F85C">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Shipp__Membe__4E88ABD4">
+          <End Role="Tbl_Members" Type="Self.Tbl_Members" Multiplicity="0..1" />
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Members">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Tbl_ShippingDetails">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Order__Shipp__0C50D423">
+          <End Role="Tbl_ShippingDetails" Type="Self.Tbl_ShippingDetails" Multiplicity="0..1" />
+          <End Role="Tbl_Order" Type="Self.Tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_ShippingDetails">
+              <PropertyRef Name="ShippingDetailId" />
+            </Principal>
+            <Dependent Role="Tbl_Order">
+              <PropertyRef Name="ShippingDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbMyOnlineShoppingEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" />
+          <EntitySet Name="Complaines" EntityType="Self.Complaine" />
+          <EntitySet Name="Tbl_Cart" EntityType="Self.Tbl_Cart" />
+          <EntitySet Name="Tbl_Category" EntityType="Self.Tbl_Category" />
+          <EntitySet Name="Tbl_Members" EntityType="Self.Tbl_Members" />
+          <EntitySet Name="Tbl_Order" EntityType="Self.Tbl_Order" />
+          <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" />
+          <EntitySet Name="Tbl_ShippingDetails" EntityType="Self.Tbl_ShippingDetails" />
+          <AssociationSet Name="FK__Cart_Deta__CartI__73852659" Association="Self.FK__Cart_Deta__CartI__73852659">
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart_Deta__Membe__76619304" Association="Self.FK__Cart_Deta__Membe__76619304">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart_Deta__Produ__17036CC0" Association="Self.FK__Cart_Deta__Produ__17036CC0">
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__CartD__0E391C95" Association="Self.FK__Tbl_Order__CartD__0E391C95">
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK___Tbl_Ship__CartI__74794A92" Association="Self.FK___Tbl_Ship__CartI__74794A92">
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Cart__Member__13F1F5EB" Association="Self.FK__Tbl_Cart__Member__13F1F5EB">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_Cart" EntitySet="Tbl_Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Produ__Categ__4D94879B" Association="Self.FK__Tbl_Produ__Categ__4D94879B">
+            <End Role="Tbl_Category" EntitySet="Tbl_Category" />
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__Membe__0D44F85C" Association="Self.FK__Tbl_Order__Membe__0D44F85C">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Shipp__Membe__4E88ABD4" Association="Self.FK__Tbl_Shipp__Membe__4E88ABD4">
+            <End Role="Tbl_Members" EntitySet="Tbl_Members" />
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Order__Shipp__0C50D423" Association="Self.FK__Tbl_Order__Shipp__0C50D423">
+            <End Role="Tbl_ShippingDetails" EntitySet="Tbl_ShippingDetails" />
+            <End Role="Tbl_Order" EntitySet="Tbl_Order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbMyOnlineShoppingModelStoreContainer" CdmEntityContainer="dbMyOnlineShoppingEntities1">
+          <EntitySetMapping Name="Cart_Details">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Cart_Details">
+              <MappingFragment StoreEntitySet="Cart_Details">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="product_Quantity" ColumnName="product_Quantity" />
+                <ScalarProperty Name="CartDetailsID" ColumnName="CartDetailsID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Complaines">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Complaine">
+              <MappingFragment StoreEntitySet="Complaine">
+                <ScalarProperty Name="ComplainId" ColumnName="ComplainId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+                <ScalarProperty Name="ComplainText" ColumnName="ComplainText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Cart">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Cart">
+              <MappingFragment StoreEntitySet="Tbl_Cart">
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="Cart_Status" ColumnName="Cart_Status" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Category">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Category">
+              <MappingFragment StoreEntitySet="Tbl_Category">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Members">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Members">
+              <MappingFragment StoreEntitySet="Tbl_Members">
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="RePassword" ColumnName="RePassword" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Order">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Order">
+              <MappingFragment StoreEntitySet="Tbl_Order">
+                <ScalarProperty Name="OerderId" ColumnName="OerderId" />
+                <ScalarProperty Name="ShippingDetailId" ColumnName="ShippingDetailId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="CartDetailsID" ColumnName="CartDetailsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Product">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_Product">
+              <MappingFragment StoreEntitySet="Tbl_Product">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_ShippingDetails">
+            <EntityTypeMapping TypeName="dbMyOnlineShoppingModel.Tbl_ShippingDetails">
+              <MappingFragment StoreEntitySet="Tbl_ShippingDetails">
+                <ScalarProperty Name="ShippingDetailId" ColumnName="ShippingDetailId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
